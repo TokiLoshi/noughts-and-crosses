@@ -1,6 +1,6 @@
 import Lights from './Lights'
 import { OrbitControls, Html } from '@react-three/drei'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 // Step 1: basic game logic - check it works
 // Add the AI to play against you
@@ -31,9 +31,22 @@ import { useState } from 'react'
 // Step 8:
 // Add sounds effects and effects with physics
 
-function Square({ value, onSquareClick }) {
-  // const [value, setValue] = useState(null)
+// Computer's turn to pick
+function AIpicks(squares) {
+  const emptyArray = []
+  for (let i = 0; i < squares.length; i++) {
+    if (squares[i] === null) {
+      emptyArray.push(i)
+    }
+  }
+  console.log('Empty array: ', emptyArray)
+  const randomIndex = Math.floor(Math.random() * emptyArray.length)
+  console.log('Random index: ', randomIndex)
+  return emptyArray[randomIndex]
+}
 
+// Square component
+function Square({ value, onSquareClick }) {
   return (
     <button className="cell" onClick={onSquareClick}>
       {value}
@@ -41,6 +54,7 @@ function Square({ value, onSquareClick }) {
   )
 }
 
+// Calculate the winner
 function calculateWinner(squares) {
   console.log('Try cacluate the winner: ', squares)
   const lines = [
@@ -68,6 +82,18 @@ export default function Experience() {
   const [squares, setSquares] = useState(Array(9).fill(null))
   const [isNext, setNext] = useState(true)
 
+  useEffect(() => {
+    if (!isNext) {
+      console.log('AI picks')
+      const nextSquares = squares.slice()
+      const computerPick = AIpicks(squares)
+      console.log("Computer's pick: ", computerPick)
+      nextSquares[computerPick] = 'O'
+      setSquares(nextSquares)
+      setNext(!isNext)
+    }
+  }, [isNext])
+
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
       return
@@ -75,13 +101,11 @@ export default function Experience() {
     const nextSquares = squares.slice()
     if (isNext) {
       nextSquares[i] = 'X'
-    } else {
-      nextSquares[i] = 'O'
-    }
 
-    setSquares(nextSquares)
-    setNext(!isNext)
-    console.log(squares)
+      setSquares(nextSquares)
+      setNext(!isNext)
+      console.log(squares)
+    }
   }
   const winner = calculateWinner(squares)
   let status
@@ -95,7 +119,7 @@ export default function Experience() {
   return (
     <>
       <Html>
-        <div style={{ color: 'red' }}>{status}</div>
+        <div style={{ color: 'black' }}>{status}</div>
         <div style={{ color: 'white' }}>Tic Tac Toe</div>
         <div className="board">
           <div className="row" style={{ display: 'flex' }}>
