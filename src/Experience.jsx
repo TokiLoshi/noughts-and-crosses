@@ -42,6 +42,7 @@ function Square({ value, onSquareClick }) {
 }
 
 function calculateWinner(squares) {
+  console.log('Try cacluate the winner: ', squares)
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -52,9 +53,11 @@ function calculateWinner(squares) {
     [0, 4, 8],
     [2, 4, 6]
   ]
-  for (let i = 0; i < lines.lengthl; i++) {
+  for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i]
-    if (squares[a] && squares[a] === squares[a] && squares[b] === squares[c]) {
+    console.log('Checking: ', a, b, c, squares[a], squares[b], squares[c])
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      console.log('Winner: ', squares[a])
       return squares[a]
     }
   }
@@ -69,9 +72,6 @@ export default function Experience() {
     if (squares[i] || calculateWinner(squares)) {
       return
     }
-    if (squares[i]) {
-      return
-    }
     const nextSquares = squares.slice()
     if (isNext) {
       nextSquares[i] = 'X'
@@ -82,21 +82,20 @@ export default function Experience() {
     setSquares(nextSquares)
     setNext(!isNext)
     console.log(squares)
-
-    const winner = calculateWinner(squares)
-    let gameState
-    if (winner) {
-      gameState = 'Winner: ' + winner
-    } else {
-      gameState = 'Next player: ' + (isNext ? 'X' : 'O')
-    }
-    console.log('Winner: ', winner)
   }
+  const winner = calculateWinner(squares)
+  let status
+  if (winner) {
+    status = 'Winner: ' + winner
+  } else {
+    status = 'Next player: ' + (isNext ? 'X' : 'O')
+  }
+  console.log('Winner: ', winner)
 
   return (
     <>
       <Html>
-        <div style={{ color: 'red' }}>{gameState}</div>
+        <div style={{ color: 'red' }}>{status}</div>
         <div style={{ color: 'white' }}>Tic Tac Toe</div>
         <div className="board">
           <div className="row" style={{ display: 'flex' }}>
