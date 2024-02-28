@@ -1,9 +1,7 @@
 import Lights from './Lights'
-import { OrbitControls, Html } from '@react-three/drei'
+import { OrbitControls, Html, Sky } from '@react-three/drei'
 import { useState, useEffect } from 'react'
-
-// Step 1: basic game logic - check it works
-// Add the AI to play against you
+import Level from './Level.jsx'
 
 // Step 2: Create the board
 // Create the floor
@@ -115,10 +113,13 @@ export default function Experience() {
     status = 'Next player: ' + (isNext ? 'X' : 'O')
   }
   console.log('Winner: ', winner)
+  const backgroundImage = './environment/kloppenheim_02_4k.hdr'
 
   return (
     <>
+      {/* <Sky distance={450000} sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} /> */}
       <Html>
+        <img src={backgroundImage} />
         <div style={{ color: 'black' }}>{status}</div>
         <div style={{ color: 'white' }}>Tic Tac Toe</div>
         <div className="board">
@@ -139,14 +140,10 @@ export default function Experience() {
           </div>
         </div>
       </Html>
-      <color args={['#ff22ff']} attach="background" />
       <Lights />
       <OrbitControls />
-      <mesh>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color="hotpink" />
-      </mesh>
-      <mesh position={[2, 0, 0]}></mesh>
+
+      <Level />
     </>
   )
 }
