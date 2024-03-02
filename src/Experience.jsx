@@ -1,11 +1,18 @@
 import Lights from './Lights'
-import { OrbitControls, Html, Sky } from '@react-three/drei'
-import { useState, useEffect } from 'react'
+import {
+  DragControls,
+  Float,
+  OrbitControls,
+  Html,
+  Sky,
+  Environment,
+  Text3D,
+  useMatcapTexture,
+  Center
+} from '@react-three/drei'
+import { useState, useEffect, useRef } from 'react'
 import Level from './Level.jsx'
-
-// Step 2: Create the board
-// Create the floor
-// Add the 3 x 3 grid which can be walls for the x's to be placed on
+import { Physics, RigidBody, CuboidCollider, useRapier } from '@react-three/rapier'
 
 // Step 2:
 // Create the pieces
@@ -28,6 +35,15 @@ import Level from './Level.jsx'
 
 // Step 8:
 // Add sounds effects and effects with physics
+
+function DragablePieces({ position }) {
+  return (
+    <mesh position={position}>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial color={'#4477CE'} />
+    </mesh>
+  )
+}
 
 // Computer's turn to pick
 function AIpicks(squares) {
@@ -79,6 +95,8 @@ function calculateWinner(squares) {
 export default function Experience() {
   const [squares, setSquares] = useState(Array(9).fill(null))
   const [isNext, setNext] = useState(true)
+  const [draggablePiece, setDraggablePiece] = useState([])
+  const X = useRef()
 
   useEffect(() => {
     if (!isNext) {
@@ -117,33 +135,63 @@ export default function Experience() {
 
   return (
     <>
-      {/* <Sky distance={450000} sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} /> */}
-      <Html>
-        <img src={backgroundImage} />
-        <div style={{ color: 'black' }}>{status}</div>
-        <div style={{ color: 'white' }}>Tic Tac Toe</div>
-        <div className="board">
-          <div className="row" style={{ display: 'flex' }}>
-            <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-            <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-            <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+      <Physics debug>
+        {/* <Sky distance={450000} sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} /> */}
+        {/* What's below works now :)  */}
+        {/* <Environment background blur={0} files={backgroundImage} /> */}
+        <Html>
+          <div style={{ color: 'black' }}>{status}</div>
+          <div style={{ color: 'white' }}>Tic Tac Toe</div>
+          <div className="board">
+            <div className="row" style={{ display: 'flex' }}>
+              <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+              <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+              <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+            </div>
+            <div className="row">
+              <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+              <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+              <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+            </div>
+            <div className="row">
+              <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+              <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+              <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+            </div>
           </div>
-          <div className="row">
-            <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-            <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-            <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
-          </div>
-          <div className="row">
-            <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-            <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-            <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
-          </div>
-        </div>
-      </Html>
-      <Lights />
-      <OrbitControls />
-
-      <Level />
+        </Html>
+        <color args={['#070F2B']} attach="background"></color>
+        <Lights />
+        {/* <OrbitControls /> */}
+        <Level />
+        <Center position={[0, 2, -6]}>
+          <Float speed={0.3}>
+            <Text3D height={0.2} size={0.75} font="./fonts/helvetiker_regular.typeface.json">
+              Noughts & Crosses
+              <meshStandardMaterial color={'#4477CE'} />
+            </Text3D>
+          </Float>
+        </Center>
+        <DragControls>
+          <RigidBody ref={X}>
+            <CuboidCollider args={[1, 1, 1]} />
+            <Text3D
+              rotation={[0, 1, 0]}
+              position={[-1, 0, 1]}
+              height={0.2}
+              size={0.75}
+              font="./fonts/helvetiker_regular.typeface.json">
+              X
+            </Text3D>
+          </RigidBody>
+        </DragControls>
+        <DragControls>
+          <mesh>
+            <boxGeometry args={[1, 1, 1]} />
+            <meshStandardMaterial color={'#4477CE'} />
+          </mesh>
+        </DragControls>
+      </Physics>
     </>
   )
 }
