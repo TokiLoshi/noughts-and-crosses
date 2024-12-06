@@ -14,7 +14,7 @@ export default function Level({ length = 1 }) {
   return (
     <>
       {/* Floor */}
-      <RigidBody type="kinematicPosition" ref={floor} position={[0, 0.3, 0]} restitution={0.2} friction={0}>
+      <RigidBody type="fixed" ref={floor} position={[0, 0.3, 0]} restitution={0.2} friction={0}>
         <CuboidCollider args={[12, 0.1, 12]} />
         <mesh position={[0, -0.01, 0]} rotation={[Math.PI / 2, 0, 0]}>
           <planeGeometry args={[12, 12, 12]} />

@@ -37,6 +37,9 @@ import { Physics, RigidBody, CuboidCollider, useRapier } from '@react-three/rapi
 // Add sounds effects and effects with physics
 
 function DragablePieces({ position }) {
+  const meshRef = useRef()
+  const [isDragging, setIsDragging] = useState(false)
+  const { viewport } = useThree()
   return (
     <mesh position={position}>
       <boxGeometry args={[1, 1, 1]} />
@@ -136,9 +139,6 @@ export default function Experience() {
   return (
     <>
       <Physics debug>
-        {/* <Sky distance={450000} sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} /> */}
-        {/* What's below works now :)  */}
-        {/* <Environment background blur={0} files={backgroundImage} /> */}
         <Html>
           <div style={{ color: 'black' }}>{status}</div>
           <div style={{ color: 'white' }}>Tic Tac Toe</div>
@@ -173,24 +173,21 @@ export default function Experience() {
           </Float>
         </Center>
         <DragControls>
-          <RigidBody ref={X}>
-            <CuboidCollider args={[1, 1, 1]} />
-            <Text3D
-              rotation={[0, 1, 0]}
-              position={[-1, 0, 1]}
-              height={0.2}
-              size={0.75}
-              font="./fonts/helvetiker_regular.typeface.json">
-              X
-            </Text3D>
-          </RigidBody>
+          <CuboidCollider args={[1, 1, 1]} />
+          <Text3D
+            rotation={[0, 1, 0]}
+            position={[-1, 0, 1]}
+            height={0.2}
+            size={0.75}
+            font="./fonts/helvetiker_regular.typeface.json">
+            X
+          </Text3D>
         </DragControls>
-        <DragControls>
-          <mesh>
-            <boxGeometry args={[1, 1, 1]} />
-            <meshStandardMaterial color={'#4477CE'} />
-          </mesh>
-        </DragControls>
+
+        <mesh>
+          <boxGeometry args={[1, 1, 1]} />
+          <meshStandardMaterial color={'#4477CE'} />
+        </mesh>
       </Physics>
     </>
   )
