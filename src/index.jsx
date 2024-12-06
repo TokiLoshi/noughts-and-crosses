@@ -4,6 +4,8 @@ import { Canvas } from '@react-three/fiber'
 import Experience from './Experience'
 import { Environment } from '@react-three/drei'
 import { Perf } from 'r3f-perf'
+import Game from './Game'
+import { Leva } from 'leva'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 const backgroundImage = './environemnt/kloppenheim_02_1k.hdr'
@@ -19,7 +21,8 @@ root.render(
       position: [0, 20, 8]
     }}>
     <Perf position={'top-left'} />
-
-    <Experience />
+    <Game />
+    {/* <Experience /> */}
+    <Leva collapsed={true} />
   </Canvas>
 )
