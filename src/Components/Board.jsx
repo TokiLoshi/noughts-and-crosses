@@ -1,3 +1,4 @@
+import useGameStore from '../Store'
 import Square from './Square'
 
 const onSquareClick = () => {
@@ -5,6 +6,8 @@ const onSquareClick = () => {
 }
 
 export default function Board({ rows = 3 }) {
+  const squares = useGameStore((state) => state.squares)
+
   const positions = []
   let x = -1
   let y = 1
@@ -22,11 +25,7 @@ export default function Board({ rows = 3 }) {
   return (
     <>
       {positions.map((position, index) => (
-        <Square position={position} key={`index${Math.random()}`} value={index} onClick={onSquareClick} />
-        // <mesh position={position} key={index}>
-        //   <boxGeometry />
-        //   <meshStandardMaterial color={`#1${Math.floor(index / 3) + 1}3${(index % 3) + 1}77`} />
-        // </mesh>
+        <Square position={position} key={`index${Math.random()}`} value={squares[index]} onClick={onSquareClick} />
       ))}
     </>
   )
