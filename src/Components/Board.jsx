@@ -1,12 +1,8 @@
 import useGameStore from '../Store'
 import Square from './Square'
 
-const onSquareClick = () => {
-  console.log('clicked')
-}
-
 export default function Board({ rows = 3 }) {
-  const squares = useGameStore((state) => state.squares)
+  const [squares, setSquares] = useGameStore((state) => [state.squares, state.setSquares])
 
   const positions = []
   let x = -1
@@ -22,11 +18,75 @@ export default function Board({ rows = 3 }) {
     x = -1
   }
   console.log('positions: ', positions)
+  const onSquareClick = (index) => {
+    console.log('clicked', index)
+    // use the subscribed setSquares with the previous squares
+    setSquares((prevSquares) => {
+      const newSquares = [...prevSquares]
+      if (newSquares[index] == null) {
+        newSquares[index] = 'X'
+      }
+      return newSquares
+    })
+  }
+
   return (
     <>
       {positions.map((position, index) => (
-        <Square position={position} key={`index${Math.random()}`} value={squares[index]} onClick={onSquareClick} />
+        <Square
+          position={position}
+          key={`index${Math.random()}`}
+          value={squares[index]}
+          onClick={() => onSquareClick(index)}
+        />
       ))}
     </>
   )
 }
+
+// import useGameStore from '../Store'
+// import Square from './Square'
+
+// export default function Board({ rows = 3 }) {
+//   // Subscribe to `squares` and `setSquares` using Zustand
+//   const [squares, setSquares] = useGameStore((state) => [state.squares, state.setSquares])
+
+//   const positions = []
+//   let x = -1
+//   let y = 1
+//   let z = 0
+
+//   // Generate positions for the squares
+//   for (let i = 0; i < rows; i++) {
+//     for (let j = 0; j < rows; j++) {
+//       positions.push([x, y, z])
+//       x += 1.2
+//     }
+//     y -= 1.2
+//     x = -1
+//   }
+
+//   const onSquareClick = (index) => {
+//     console.log('clicked', index)
+//     setSquares((prevSquares) => {
+//       const newSquares = [...prevSquares]
+//       if (newSquares[index] === null) {
+//         newSquares[index] = 'X' // Hardcoded for now
+//       }
+//       return newSquares
+//     })
+//   }
+
+//   return (
+//     <>
+//       {positions.map((position, index) => (
+//         <Square
+//           position={position}
+//           key={`square-${index}`}
+//           value={squares[index]}
+//           onClick={() => onSquareClick(index)} // Pass the click handler
+//         />
+//       ))}
+//     </>
+//   )
+// }

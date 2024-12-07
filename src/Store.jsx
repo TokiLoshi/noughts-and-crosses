@@ -6,7 +6,7 @@ const useGameStore = create(
   // uses middleware to check the context
   combine(
     // initialize the 3x3 board
-    { squares: Array(9).fill('null') },
+    { squares: Array(9).fill(null) },
     (set) => ({
       // update state functions
       setSquares: (nextSquares) =>
