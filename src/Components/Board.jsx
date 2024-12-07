@@ -1,9 +1,12 @@
+import { useEffect } from 'react'
 import useGameStore from '../Store'
 import Square from './Square'
 
 export default function Board({ rows = 3 }) {
   const [squares, setSquares] = useGameStore((state) => [state.squares, state.setSquares])
+  const [xIsNext, setXIsNext] = useGameStore((state) => [state.xIsNext, state.setXIsNext])
 
+  console.log('Use effect is running and now we set up positions')
   const positions = []
   let x = -1
   let y = 1
@@ -17,7 +20,10 @@ export default function Board({ rows = 3 }) {
     y -= 1.1
     x = -1
   }
-  console.log('positions: ', positions)
+
+  const player = xIsNext ? 'X' : '0'
+  console.log('Current Player: ', xIsNext)
+
   const onSquareClick = (index) => {
     console.log('clicked', index)
     // use the subscribed setSquares with the previous squares
@@ -30,6 +36,14 @@ export default function Board({ rows = 3 }) {
     })
   }
 
+  const handleClick = (index) => {
+    if (squares[index]) return
+    const nextSquares = squares.slice()
+    nextSquares[index] = player
+    setSquares(nextSquares)
+    setXIsNext(!xIsNext)
+  }
+
   return (
     <>
       {positions.map((position, index) => (
@@ -37,7 +51,7 @@ export default function Board({ rows = 3 }) {
           position={position}
           key={`index${Math.random()}`}
           value={squares[index]}
-          onClick={() => onSquareClick(index)}
+          onClick={() => handleClick(index)}
         />
       ))}
     </>
