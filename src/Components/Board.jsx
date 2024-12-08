@@ -23,7 +23,10 @@ export default function Board({ rows = 3 }) {
     x = -1
   }
 
-  const winner = calculateWinner(squares)
+  const winnerInfo = calculateWinner(squares)
+  const winner = winnerInfo?.winner
+  const winningSquares = winnerInfo?.winningSquares || []
+
   const turns = calculateTurns(squares)
   const player = xIsNext ? 'X' : '0'
   const status = calculateStatus(winner, turns, player)
@@ -51,6 +54,7 @@ export default function Board({ rows = 3 }) {
           currentPlayer={player}
           isGlowing={glowingSquare === index}
           glowColor={xIsNext ? 'orange' : 'rebeccapurple'}
+          isWinner={winner && winningSquares.includes(index)}
         />
       ))}
       <Html

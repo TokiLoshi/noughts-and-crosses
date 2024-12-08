@@ -3,7 +3,7 @@ import { useControls } from 'leva'
 import { DoubleSide } from 'three'
 import { useRef, useState, useEffect } from 'react'
 
-export default function Square({ position, value, onClick, isGlowing, glowColor }) {
+export default function Square({ position, value, onClick, isGlowing, glowColor, isWinner }) {
   const xPosition = position[0].toFixed(1)
   const yPosition = position[1].toFixed(1)
   const zPosition = position[2].toFixed(1)
@@ -23,8 +23,8 @@ export default function Square({ position, value, onClick, isGlowing, glowColor 
         <meshStandardMaterial
           color="rebeccapurple"
           side={DoubleSide}
-          emissive={isGlowing ? glowColor : 'black'}
-          emissiveIntensity={isGlowing ? 3 : 0}
+          emissive={isGlowing || isWinner ? glowColor : 'black'}
+          emissiveIntensity={isWinner ? 3 : isGlowing ? 3 : 0}
         />
       </mesh>
       {value && (
