@@ -21,13 +21,13 @@ root.render(
         far: 100,
         position: [0, 0, 8]
       }}>
-      <Perf position={'top-left'} />
+      {/* <Perf position={'top-left'} /> */}
       <OrbitControls />
       <ambientLight intensity={1.5} />
 
       <Game />
       {/* <Experience /> */}
     </Canvas>
-    <Leva collapsed={true} />
+    <Leva hidden={location.hash !== '#debug'} collapsed={true} />
   </>
 )
