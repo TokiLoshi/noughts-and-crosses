@@ -1,12 +1,14 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import useGameStore from '../Store'
 import Square from './Square'
 import { Html } from '@react-three/drei'
+import { calculateWinner, calculateTurns, calculateStatus } from '../utils.js'
 
 export default function Board({ rows = 3 }) {
   const [squares, setSquares] = useGameStore((state) => [state.squares, state.setSquares])
   const [xIsNext, setXIsNext] = useGameStore((state) => [state.xIsNext, state.setXIsNext])
   const restart = useGameStore((state) => state.restart)
+  const [glowingSquare, setGlowingSquare] = useState(null)
 
   const positions = []
   let x = -1
@@ -32,6 +34,10 @@ export default function Board({ rows = 3 }) {
     nextSquares[index] = player
     setSquares(nextSquares)
     setXIsNext(!xIsNext)
+
+    setGlowingSquare(index)
+
+    setTimeout(() => setGlowingSquare(null), 1000)
   }
 
   return (
@@ -42,6 +48,9 @@ export default function Board({ rows = 3 }) {
           key={`index${Math.random()}`}
           value={squares[index]}
           onClick={() => handleClick(index)}
+          currentPlayer={player}
+          isGlowing={glowingSquare === index}
+          glowColor={xIsNext ? 'orange' : 'rebeccapurple'}
         />
       ))}
       <Html
@@ -72,44 +81,6 @@ export default function Board({ rows = 3 }) {
       </Html>
     </>
   )
-}
-
-function calculateWinner(squares) {
-  // possible wins
-  const winningScenarios = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ]
-
-  for (let i = 0; i < winningScenarios.length; i++) {
-    const [a, b, c] = winningScenarios[i]
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a]
-    }
-  }
-  return null
-}
-
-function calculateTurns(squares) {
-  // check for remaining turns by filtering out only null items
-  const nullSquares = squares.filter((square) => !square)
-  const remainingTurns = nullSquares.length
-  return remainingTurns
-}
-
-function calculateStatus(winner, remainingTurns, player) {
-  // if no winner and no turns it's a draw
-  if (!winner && !remainingTurns) return "It's a draw"
-  // if there's a winner return the winner
-  if (winner) return `GG`
-  // otherwise return next player
-  return `Player ${player}, you're up!`
 }
 
 const ResetButton = () => {

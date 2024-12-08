@@ -6,6 +6,7 @@ import { Environment, OrbitControls } from '@react-three/drei'
 import { Perf } from 'r3f-perf'
 import Game from './Game'
 import { useControls, Leva } from 'leva'
+import { Bloom, EffectComposer } from '@react-three/postprocessing'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 const backgroundImage = './environemnt/kloppenheim_02_1k.hdr'
@@ -24,7 +25,9 @@ root.render(
       {/* <Perf position={'top-left'} /> */}
       <OrbitControls />
       <ambientLight intensity={1.5} />
-
+      <EffectComposer>
+        <Bloom intensity={1.0} luminanceThreshold={0.2} luminanceSmoothing={0.9} />
+      </EffectComposer>
       <Game />
       {/* <Experience /> */}
     </Canvas>

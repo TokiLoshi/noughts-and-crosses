@@ -1,10 +1,8 @@
-# React + Vite
+# Tic Tac Toe
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Experimenting with Zustand for game store and to better understand state and how to use game state in react three fiber.
 
-Currently, two official plugins are available:
+## ToDos:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-Fun Xs and Os game to practice using rapier and react-3 fiber
+- [x] add postprocessing / animation for when a square is clicked
+- [ ] add line drawing animation or shader for when the drawn and a winner is declared

@@ -1,8 +1,9 @@
 import { Html } from '@react-three/drei'
 import { useControls } from 'leva'
 import { DoubleSide } from 'three'
+import { useRef, useState, useEffect } from 'react'
 
-export default function Square({ position, value, onClick }) {
+export default function Square({ position, value, onClick, isGlowing, glowColor }) {
   const xPosition = position[0].toFixed(1)
   const yPosition = position[1].toFixed(1)
   const zPosition = position[2].toFixed(1)
@@ -17,12 +18,14 @@ export default function Square({ position, value, onClick }) {
   )
   return (
     <>
-      <mesh
-        position={position}
-        // rotation={[values.rotationX, values.rotationY, values.rotationZ]}
-        onClick={onClick}>
+      <mesh position={position} onClick={onClick}>
         <boxGeometry />
-        <meshStandardMaterial color="rebeccapurple" side={DoubleSide} />
+        <meshStandardMaterial
+          color="rebeccapurple"
+          side={DoubleSide}
+          emissive={isGlowing ? glowColor : 'black'}
+          emissiveIntensity={isGlowing ? 3 : 0}
+        />
       </mesh>
       {value && (
         <Html
