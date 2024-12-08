@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import useGameStore from '../Store'
 import Square from './Square'
+import { Html } from '@react-three/drei'
 
 export default function Board({ rows = 3 }) {
   const [squares, setSquares] = useGameStore((state) => [state.squares, state.setSquares])
@@ -70,6 +71,26 @@ export default function Board({ rows = 3 }) {
           onClick={() => handleClick(index)}
         />
       ))}
+      <Html
+        position={[-1, -3, 0]}
+        style={{
+          color: 'rebeccapurple',
+          fontFamily: 'sans-serif',
+          whiteSpace: 'nowrap',
+          textAlign: 'center',
+          fontWeight: 'bold',
+          fontSize: '1.2em'
+        }}>
+        {winner ? (
+          <>
+            Winner is: <br />
+            {winner}!<br />
+            Well done!
+          </>
+        ) : (
+          status
+        )}
+      </Html>
     </>
   )
 }
@@ -113,7 +134,7 @@ function calculateStatus(winner, remainingTurns, player) {
   // if no winner and no turns it's a draw
   if (!winner && !remainingTurns) return "It's a draw"
   // if there's a winner return the winner
-  if (winner) return `Winner is: ${winner}! Well done!`
+  if (winner) return `GG`
   // otherwise return next player
   return `Player ${player}, you're up!`
 }
