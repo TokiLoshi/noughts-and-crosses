@@ -9,8 +9,6 @@ import { useControls, Leva } from 'leva'
 import { Bloom, EffectComposer } from '@react-three/postprocessing'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
-const backgroundImage = './environemnt/kloppenheim_02_1k.hdr'
-console.log('Background image: ', backgroundImage)
 
 root.render(
   <>

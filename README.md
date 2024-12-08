@@ -2,7 +2,7 @@
 
 A 3D implementation of the classic Tic Tac Toe game, build with React Three Fiber with the goal of learning Zustand.
 
-![DemoImage](placeholder)
+![DemoImage](https://github.com/TokiLoshi/noughts-and-crosses/blob/main/public/TicTacToe.png)
 
 ### Features
 
