@@ -10,7 +10,6 @@ const gridMaterial = new THREE.MeshStandardMaterial({ color: '#4477CE' })
 export default function Level({ length = 1 }) {
   const floor = useRef()
   const grid = useRef()
-  console.log('Level loading')
   return (
     <>
       {/* Floor */}

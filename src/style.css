@@ -9,3 +9,6 @@ body,
   background: ivory;
   font-family: 'sans-serif';
 }
+.overlapping-element {
+  pointer-events: none;
+}

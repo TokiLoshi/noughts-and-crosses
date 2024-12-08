@@ -18,7 +18,11 @@ export default function Square({ position, value, onClick, isGlowing, glowColor,
   )
   return (
     <>
-      <mesh position={position} onClick={onClick}>
+      <mesh
+        position={position}
+        onClick={onClick}
+        onPointerOver={() => (document.body.style.cursor = 'pointer')}
+        onPointerOut={() => (document.body.style.cursor = 'default')}>
         <boxGeometry />
         <meshStandardMaterial
           color="rebeccapurple"

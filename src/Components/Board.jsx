@@ -90,17 +90,22 @@ export default function Board({ rows = 3 }) {
 const ResetButton = () => {
   const restart = useGameStore((state) => state.restart)
   return (
-    <button
-      style={{
-        color: 'orange',
-        backgroundColor: 'black',
-        border: '1px solid rebeccapurple',
-        borderRadius: '5px',
-        marginTop: '20px',
-        padding: '10px'
-      }}
-      onClick={restart}>
-      Reset
-    </button>
+    <>
+      <div style={{ margin: '10px' }}>
+        <button
+          style={{
+            color: 'orange',
+            backgroundColor: 'black',
+            border: '1px solid rebeccapurple',
+            borderRadius: '5px',
+            marginTop: '20px',
+            padding: '10px',
+            cursor: 'pointer'
+          }}
+          onClick={restart}>
+          Reset
+        </button>
+      </div>
+    </>
   )
 }

@@ -29,6 +29,8 @@ root.render(
         <Bloom intensity={1.0} luminanceThreshold={0.2} luminanceSmoothing={0.9} />
       </EffectComposer>
       <Game />
+      {/* Experience was an experiment in with Physics
+      Neither the experience nor Level components were fully developed */}
       {/* <Experience /> */}
     </Canvas>
     <Leva hidden={location.hash !== '#debug'} collapsed={true} />

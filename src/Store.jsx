@@ -21,7 +21,6 @@ const useGameStore = create(
           }))
         },
         restart: () => {
-          console.log('User wants to reset')
           set({ squares: Array(9).fill(null), isXNext: true })
         }
       }

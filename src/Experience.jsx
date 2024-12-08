@@ -11,30 +11,8 @@ import {
   Center
 } from '@react-three/drei'
 import { useState, useEffect, useRef } from 'react'
-import Level from './Level.jsx'
+import Level from './Components/Level.jsx'
 import { Physics, RigidBody, CuboidCollider, useRapier } from '@react-three/rapier'
-
-// Step 2:
-// Create the pieces
-// Add up to 5 x's and 5 o'x
-
-// Step 3:
-// Gamee mechanics with the store
-
-// Step 4:
-// Create the UI
-// Add the ability to drag and drop the pieces
-// Add listen events that update the store with the board
-// Disable the pieces
-
-// Step 6:
-// Add the animation for a win condition
-
-// Step 7:
-// Display the winner and add a reset button
-
-// Step 8:
-// Add sounds effects and effects with physics
 
 function DragablePieces({ position }) {
   const meshRef = useRef()
@@ -133,7 +111,6 @@ export default function Experience() {
   } else {
     status = 'Next player: ' + (isNext ? 'X' : 'O')
   }
-  console.log('Winner: ', winner)
   const backgroundImage = './environment/kloppenheim_02_4k.hdr'
 
   return (
