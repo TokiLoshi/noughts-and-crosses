@@ -1,4 +1,4 @@
-import { OrbitControls } from '@react-three/drei'
+import { Html, OrbitControls, Text3D } from '@react-three/drei'
 import Square from './Components/Square'
 import Board from './Components/Board'
 import { useControls } from 'leva'
@@ -30,6 +30,19 @@ export default function Game() {
 
   return (
     <>
+      <Html
+        position={[-1, 3, 0]}
+        style={{
+          color: 'rebeccapurple',
+          fontFamily: 'sans-serif',
+          whiteSpace: 'nowrap',
+          textAlign: 'center',
+          fontWeight: 'bold',
+          fontDecoration: 'underline',
+          fontSize: '2em'
+        }}>
+        Tic Tac Toe
+      </Html>
       <color attach="background" args={[bgColor]} />
       <directionalLight position={[lights.lightPositionX, lights.lightPositionY, lights.lightPositionZ]} />
       <Board rows={rows} />

@@ -6,6 +6,7 @@ import { Html } from '@react-three/drei'
 export default function Board({ rows = 3 }) {
   const [squares, setSquares] = useGameStore((state) => [state.squares, state.setSquares])
   const [xIsNext, setXIsNext] = useGameStore((state) => [state.xIsNext, state.setXIsNext])
+  const restart = useGameStore((state) => state.restart)
 
   const positions = []
   let x = -1
@@ -21,44 +22,16 @@ export default function Board({ rows = 3 }) {
   }
 
   const winner = calculateWinner(squares)
-  console.log('winner? ', winner)
   const turns = calculateTurns(squares)
-  console.log('turns? ', turns)
   const player = xIsNext ? 'X' : '0'
-  console.log('Current Player: ', xIsNext)
   const status = calculateStatus(winner, turns, player)
-  console.log('current status: ', status)
-
-  const onSquareClick = (index) => {
-    console.log('clicked', index)
-    // use the subscribed setSquares with the previous squares
-    setSquares((prevSquares) => {
-      const newSquares = [...prevSquares]
-      if (newSquares[index] == null) {
-        newSquares[index] = 'X'
-      }
-      return newSquares
-    })
-  }
 
   const handleClick = (index) => {
     if (squares[index] || winner) return
     const nextSquares = squares.slice()
-    console.log('Next squares: ', nextSquares)
-
-    console.log('No winner set next squares')
     nextSquares[index] = player
     setSquares(nextSquares)
     setXIsNext(!xIsNext)
-    console.log('Up next: ', xIsNext)
-    const newWinner = calculateWinner(nextSquares)
-    console.log('New winner: ', newWinner)
-    const newTurns = calculateTurns(nextSquares)
-    console.log('New turns length: ', newTurns)
-    const status = calculateStatus(newWinner, newTurns, xIsNext)
-    console.log('Status: ', status)
-    // And then we want to calculate the status
-    return status
   }
 
   return (
@@ -83,12 +56,18 @@ export default function Board({ rows = 3 }) {
         }}>
         {winner ? (
           <>
-            Winner is: <br />
-            {winner}!<br />
-            Well done!
+            <div>
+              {winner} Wins! <span style={{ fontSize: '2em' }}>👏</span> Well done!
+            </div>
+            <div>
+              <ResetButton />
+            </div>
           </>
         ) : (
-          status
+          <>
+            <div>{status}</div>
+            <ResetButton />
+          </>
         )}
       </Html>
     </>
@@ -98,9 +77,6 @@ export default function Board({ rows = 3 }) {
 function calculateWinner(squares) {
   // possible wins
   const winningScenarios = [
-    // All next to each other
-    // Vertical along columns
-    // Diagonals
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -110,11 +86,9 @@ function calculateWinner(squares) {
     [0, 4, 8],
     [2, 4, 6]
   ]
-  // Loop through winningScenarios
+
   for (let i = 0; i < winningScenarios.length; i++) {
-    // destructure the lines into variablse
     const [a, b, c] = winningScenarios[i]
-    // check to see if there's a match
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a]
     }
@@ -124,7 +98,6 @@ function calculateWinner(squares) {
 
 function calculateTurns(squares) {
   // check for remaining turns by filtering out only null items
-  // return the count of them
   const nullSquares = squares.filter((square) => !square)
   const remainingTurns = nullSquares.length
   return remainingTurns
@@ -137,4 +110,22 @@ function calculateStatus(winner, remainingTurns, player) {
   if (winner) return `GG`
   // otherwise return next player
   return `Player ${player}, you're up!`
+}
+
+const ResetButton = () => {
+  const restart = useGameStore((state) => state.restart)
+  return (
+    <button
+      style={{
+        color: 'orange',
+        backgroundColor: 'black',
+        border: '1px solid rebeccapurple',
+        borderRadius: '5px',
+        marginTop: '20px',
+        padding: '10px'
+      }}
+      onClick={restart}>
+      Reset
+    </button>
+  )
 }

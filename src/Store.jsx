@@ -19,6 +19,10 @@ const useGameStore = create(
           set((state) => ({
             xIsNext: typeof nextXIsNext === 'function' ? nextXIsNext(state.xIsNext) : nextXIsNext
           }))
+        },
+        restart: () => {
+          console.log('User wants to reset')
+          set({ squares: Array(9).fill(null), isXNext: true })
         }
       }
     }

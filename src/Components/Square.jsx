@@ -25,7 +25,9 @@ export default function Square({ position, value, onClick }) {
         <meshStandardMaterial color="rebeccapurple" side={DoubleSide} />
       </mesh>
       {value && (
-        <Html position={[xPosition, yPosition, zPosition]} style={{ color: 'orange' }}>
+        <Html
+          position={[xPosition, yPosition, zPosition]}
+          style={{ color: 'orange', fontSize: '1.5em', fontFamily: 'sans-serif' }}>
           {value}
         </Html>
       )}
